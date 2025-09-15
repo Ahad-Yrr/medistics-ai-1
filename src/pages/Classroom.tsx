@@ -10,7 +10,7 @@ import { ProfileDropdown } from '@/components/ProfileDropdown'; // NEW: Import P
 
 // Import the new components
 import { GroupsDisplay } from '@/components/classroom/GroupsDisplay';
-import { MessageScreen } from '@/components/classroom/MessageScreen';
+import { MessageScreen } from '@/components/MessageScreen';
 import Seo from '@/components/Seo'; // Import the Seo component
 
 // Type definitions (re-defined here for component self-containment)

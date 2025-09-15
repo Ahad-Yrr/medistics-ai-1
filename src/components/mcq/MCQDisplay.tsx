@@ -498,22 +498,42 @@ export const MCQDisplay = ({
     console.log("Navigating to upgrade page..."); // Placeholder
   };
 
+  // ----- REPLACED LOADING STATE: Facebook-style skeleton (only this block changed) -----
   if (loading || profileLoading) { // Added profileLoading to the loading state
     return (
       <Card className="bg-gradient-to-br from-purple-100/70 via-purple-50/50 to-pink-50/30 dark:from-purple-900/30 dark:via-purple-800/20 dark:to-pink-900/10 border-purple-200 dark:border-purple-800 backdrop-blur-sm mx-2 sm:mx-0">
-        <CardContent className="text-center py-6 sm:py-8 flex flex-col items-center justify-center h-full">
-          <div className="flex justify-center items-end h-24 space-x-2"> {/* items-end to make waves rise from bottom */}
-            <div className="w-3 h-12 bg-purple-600 dark:bg-purple-400 rounded-full wave-bar" style={{ animationDelay: '0s' }}></div>
-            <div className="w-3 h-12 bg-purple-600 dark:bg-purple-400 rounded-full wave-bar" style={{ animationDelay: '0.1s' }}></div>
-            <div className="w-3 h-12 bg-purple-600 dark:bg-purple-400 rounded-full wave-bar" style={{ animationDelay: '0.2s' }}></div>
-            <div className="w-3 h-12 bg-purple-600 dark:bg-purple-400 rounded-full wave-bar" style={{ animationDelay: '0.3s' }}></div>
-            <div className="w-3 h-12 bg-purple-600 dark:bg-purple-400 rounded-full wave-bar" style={{ animationDelay: '0.4s' }}></div>
+        <CardContent className="p-6">
+          {/* Skeleton container */}
+          <div className="space-y-4">
+            {/* Question title skeleton */}
+            <div className="mx-auto w-3/4 h-6 rounded-md bg-gray-200 dark:bg-gray-800 animate-pulse" />
+
+            {/* Short description skeleton */}
+            <div className="mx-auto w-5/6 h-4 rounded-md bg-gray-200 dark:bg-gray-800 animate-pulse" />
+
+            {/* Options skeletons (Facebook-like) */}
+            <div className="mt-4 space-y-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="w-full h-12 rounded-lg bg-gray-200 dark:bg-gray-800 animate-pulse" />
+              ))}
+            </div>
+
+            {/* Action buttons skeleton */}
+            <div className="mt-4 flex justify-between items-center">
+              <div className="w-28 h-8 rounded-md bg-gray-200 dark:bg-gray-800 animate-pulse" />
+              <div className="w-28 h-8 rounded-md bg-gray-200 dark:bg-gray-800 animate-pulse" />
+            </div>
+
+            {/* Small footer skeleton */}
+            <div className="mt-4 flex justify-center">
+              <div className="w-40 h-4 rounded-md bg-gray-200 dark:bg-gray-800 animate-pulse" />
+            </div>
           </div>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-4">Loading questions...</p>
         </CardContent>
       </Card>
     );
   }
+  // ----- END LOADING STATE -----
 
   if (!mcqs || mcqs.length === 0) {
     return (
@@ -590,26 +610,31 @@ export const MCQDisplay = ({
           transition={{ duration: 0.3 }}
         >
           <Card className="bg-gradient-to-br from-purple-100/70 via-purple-50/50 to-pink-50/30 dark:from-purple-900/30 dark:via-purple-800/20 dark:to-pink-900/10 border-purple-200 dark:border-purple-800 backdrop-blur-sm">
-            <CardHeader className="px-4 sm:px-6 py-4 sm:py-6 flex flex-row justify-between items-start"> {/* Adjusted for button */}
-              <CardTitle className="text-base sm:text-lg leading-relaxed text-gray-900 dark:text-white flex-grow">
-                {currentMCQ?.question}
-              </CardTitle>
-              {user && ( // Only show save button if user is logged in
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleSaveMCQ}
-                  className="ml-4 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
-                  title={isCurrentMCQSaved ? "Unsave Question" : "Save Question"}
-                >
-                  {isCurrentMCQSaved ? (
-                    <BookmarkCheck className="w-5 h-5 fill-purple-600 text-purple-600 dark:fill-purple-400 dark:text-purple-400" />
-                  ) : (
-                    <Bookmark className="w-5 h-5" />
-                  )}
-                </Button>
-              )}
+            <CardHeader className="px-4 sm:px-6 py-4 sm:py-6">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-base sm:text-lg leading-relaxed text-gray-900 dark:text-white flex-1">
+                  {currentMCQ?.question}
+                </CardTitle>
+
+                {user && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleSaveMCQ}
+                    className="ml-2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400"
+                    title={isCurrentMCQSaved ? "Unsave Question" : "Save Question"}
+                  >
+                    {isCurrentMCQSaved ? (
+                      <BookmarkCheck className="w-5 h-5 fill-purple-600 text-purple-600 dark:fill-purple-400 dark:text-purple-400" />
+                    ) : (
+                      <Bookmark className="w-5 h-5" />
+                    )}
+                  </Button>
+                )}
+              </div>
             </CardHeader>
+
+
             <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
               <div className="space-y-2 sm:space-y-3">
                 {currentMCQ?.shuffledOptions.map((option, index) => {
@@ -667,24 +692,43 @@ export const MCQDisplay = ({
               )}
 
               {/* Action Buttons */}
-              <div className="flex justify-end space-x-2 sm:space-x-3 mt-4 sm:mt-6">
-                {!showExplanation && selectedAnswer && (
+              <div className="flex flex-col sm:flex-row justify-between items-center sm:items-end mt-4 sm:mt-6 space-y-2 sm:space-y-0 sm:space-x-3">
+                {/* Previous Button - Hidden on first question */}
+                {currentQuestionIndex > 0 && (
                   <Button
-                    onClick={() => handleSubmitAnswer()}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-sm sm:text-base px-4 sm:px-6"
+                    onClick={() => {
+                      setCurrentQuestionIndex(prev => prev - 1);
+                      setSelectedAnswer(null);
+                      setShowExplanation(false);
+                      setTimeLeft(timePerQuestion);
+                      setStartTime(Date.now());
+                    }}
+                    variant="outline"
+                    className="w-full sm:w-auto border-purple-200 dark:border-purple-800 hover:bg-purple-100 dark:hover:bg-purple-900/30 text-sm sm:text-base"
                   >
-                    Submit Answer
+                    Previous Question
                   </Button>
                 )}
 
-                {showExplanation && (
-                  <Button
-                    onClick={handleNextQuestion}
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-sm sm:text-base px-4 sm:px-6"
-                  >
-                    {currentQuestionIndex < totalQuestions - 1 ? 'Next Question' : 'Finish Quiz'}
-                  </Button>
-                )}
+                <div className="flex w-full sm:w-auto justify-end space-x-2 sm:space-x-3">
+                  {!showExplanation && selectedAnswer && (
+                    <Button
+                      onClick={() => handleSubmitAnswer()}
+                      className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-sm sm:text-base px-4 sm:px-6"
+                    >
+                      Submit Answer
+                    </Button>
+                  )}
+
+                  {showExplanation && (
+                    <Button
+                      onClick={handleNextQuestion}
+                      className="w-full sm:w-auto bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-sm sm:text-base px-4 sm:px-6"
+                    >
+                      {currentQuestionIndex < totalQuestions - 1 ? 'Next Question' : 'Finish Quiz'}
+                    </Button>
+                  )}
+                </div>
               </div>
 
               {/* Best of luck message */}
