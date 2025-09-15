@@ -27,6 +27,8 @@ import Admin10 from '@/pages/Admin10';
 import Admin11 from '@/pages/Admin11';
 import {Admin12} from '@/pages/Admin12';
 import Admin13 from '@/pages/Admin13';
+import Admin14 from '@/pages/Admin14';
+// import Admin15 from '@/pages/Admin15';
 import Profile from '@/pages/Profile';
 import Pricing from '@/pages/Pricing';
 import TermsAndConditions from '@/pages/TermsAndConditions';
@@ -55,6 +57,7 @@ import FLPResults from '@/pages/FLPResults';
 import FLPResultDetail from '@/components/FLPResultDetail'; // Adjust path if needed
 import ForgotPassword from '@/pages/ForgotPassword'; // Assuming you have a custom hook for authentication
 import UpdatePassword from '@/pages/UpdatePassword'; // Add this import
+import Flashcards from '@/pages/Flashcards'; // Add this import
 import './App.css';
 
 // Import the VideoCallProvider
@@ -101,6 +104,8 @@ function App() {
                 <Route path="/admin11" element={<Admin11 />} />
                 <Route path="/admin12" element={<Admin12 />} />
                 <Route path="/admin13" element={<Admin13 />} />
+                <Route path="/admin14" element={<Admin14 />} />
+                {/* <Route path="/admin15" element={<Admin15 />} /> */}
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/password" element={<ChangePassword />} />
                 <Route path="/profile/upgrade" element={<Profile />} />
@@ -130,6 +135,7 @@ function App() {
                 <Route path="/results/flp/:id" element={<FLPResultDetail />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/update-password" element={<UpdatePassword />} /> {/* This is the new route */}
+                <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </VideoCallProvider>
