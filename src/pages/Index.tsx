@@ -1283,7 +1283,7 @@ const testimonials = [
       <div className="flex flex-col items-center justify-center">
         <h3 className="text-xl font-semibold mb-4">WhatsApp/Contact:</h3>
         <a
-          href="https://wa.me/03392456162"
+          href="https://wa.me/0324256162"
           target="_blank"
           rel="noopener noreferrer"
           className="text-purple-600 dark:text-pink-400 hover:text-purple-800 dark:hover:text-pink-600 transition-colors duration-300"
@@ -1391,15 +1391,16 @@ const testimonials = [
                 <h3 className="font-semibold mb-4 text-purple-400">Support & Legal</h3>
                 <ul className="space-y-2 text-gray-400">
                   <li className="hover:text-purple-300 transition-colors duration-300">medistics@dr.com</li>
-                  <li className="hover:text-purple-300 transition-colors duration-300">Pakistan</li>
+                  <li className="hover:text-purple-300 transition-colors duration-300">L13 KDA Flats, Sector 5E Surjani Town, Karachi</li>
                   <li><Link to="/privacypolicy" className="hover:text-white hover:text-purple-300 transition-all duration-300 hover:translate-x-1">Privacy Policy</Link></li>
                   <li><Link to="/terms" className="hover:text-white hover:text-purple-300 transition-all duration-300 hover:translate-x-1">Terms and Conditions</Link></li>
+                  <li><Link to="/refund-policy" className="hover:text-white hover:text-purple-300 transition-all duration-300 hover:translate-x-1">Refund Policy</Link></li>
                 </ul>
               </div>
             </div>
 
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-              <p>&copy; 2025 Medistics. All rights reserved.</p>
+              <p>&copy; 2026 Medistics. All rights reserved.</p>
             </div>
           </div>
         </footer>

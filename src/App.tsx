@@ -58,6 +58,8 @@ import FLPResultDetail from '@/components/FLPResultDetail'; // Adjust path if ne
 import ForgotPassword from '@/pages/ForgotPassword'; // Assuming you have a custom hook for authentication
 import UpdatePassword from '@/pages/UpdatePassword'; // Add this import
 import Flashcards from '@/pages/Flashcards'; // Add this import
+import InstallApp from '@/pages/InstallApp'; // Add this import
+import RefundPolicy from '@/pages/RefundPolicy'; // Add this import
 import './App.css';
 
 // Import the VideoCallProvider
@@ -136,6 +138,8 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/update-password" element={<UpdatePassword />} /> {/* This is the new route */}
                 <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
+                <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
+                <Route path="/refund-policy" element={<RefundPolicy />} /> {/* This is the new route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </VideoCallProvider>
