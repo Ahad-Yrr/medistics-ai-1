@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Search, PlusCircle, Edit, Trash2 } from 'lucide-react';
@@ -57,7 +58,7 @@ export const Admin12: React.FC = () => {
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [mcqs, setMcqs] = useState<MCQ[]>([]);
   // Global loading state for all data operations, including initial subject and role fetch
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null); // State to hold the user's role
 
@@ -101,6 +102,11 @@ export const Admin12: React.FC = () => {
   // State for managing the "Delete Confirmation" dialog
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [questionToDeleteId, setQuestionToDeleteId] = useState<string | null>(null);
+
+  // State for bulk delete feature
+  const [selectedQuestions, setSelectedQuestions] = useState<Set<string>>(new Set());
+  const [isSelectAll, setIsSelectAll] = useState(false);
+  const [bulkDeleteConfirmationOpen, setBulkDeleteConfirmationOpen] = useState(false);
 
   // --- Data Fetching Logic ---
 
@@ -197,6 +203,9 @@ export const Admin12: React.FC = () => {
       const { data, error } = await query.order('id', { ascending: false }); // Order by ID descending for newest first
       if (error) throw error;
       setMcqs(data || []);
+      // Reset selection when new data is loaded
+      setSelectedQuestions(new Set());
+      setIsSelectAll(false);
     } catch (err: any) {
       console.error('Error fetching MCQs:', err);
       setError('Failed to load questions.');
@@ -215,8 +224,10 @@ export const Admin12: React.FC = () => {
     } else if (userRole === 'admin') {
       // If user is admin but conditions for fetching are not met, clear displayed MCQs
       setMcqs([]);
+      setSelectedQuestions(new Set());
+      setIsSelectAll(false);
     }
-  }, [selectedSubjectId, selectedChapterId, currentSearchQuery, subjects, userRole, toast]); 
+  }, [selectedSubjectId, selectedChapterId, currentSearchQuery, subjects, userRole, toast]);
 
   // Handler for search button click
   const handleSearchButtonClick = () => {
@@ -264,9 +275,9 @@ export const Admin12: React.FC = () => {
     const subjectObj = subjects.find(s => s.id === subject);
 
     if (!chapterObj || !subjectObj) {
-        toast({ title: 'Error', description: 'Selected chapter or subject is invalid.', variant: 'destructive' });
-        setLoading(false);
-        return;
+      toast({ title: 'Error', description: 'Selected chapter or subject is invalid.', variant: 'destructive' });
+      setLoading(false);
+      return;
     }
 
     // Create an array of options, filtering out empty ones (C and D are optional)
@@ -382,9 +393,9 @@ export const Admin12: React.FC = () => {
     const subjectObj = subjects.find(s => s.id === subject);
 
     if (!chapterObj || !subjectObj) {
-        toast({ title: 'Error', description: 'Selected chapter or subject is invalid.', variant: 'destructive' });
-        setLoading(false);
-        return;
+      toast({ title: 'Error', description: 'Selected chapter or subject is invalid.', variant: 'destructive' });
+      setLoading(false);
+      return;
     }
 
     // Create an array of options, filtering out empty ones
@@ -457,6 +468,12 @@ export const Admin12: React.FC = () => {
       toast({ title: 'Success', description: 'Question deleted successfully!' });
       setDeleteConfirmationOpen(false); // Close the dialog
       setQuestionToDeleteId(null); // Clear the ID
+      // Remove from selected questions if it was selected
+      if (selectedQuestions.has(questionToDeleteId)) {
+        const newSelected = new Set(selectedQuestions);
+        newSelected.delete(questionToDeleteId);
+        setSelectedQuestions(newSelected);
+      }
       // Re-fetch MCQs if current filters allow, or just clear if no filters are active
       if ((selectedSubjectId && selectedChapterId) || currentSearchQuery) {
         await fetchMcqsData();
@@ -469,6 +486,93 @@ export const Admin12: React.FC = () => {
       console.error('Error deleting question:', err);
       setError('Failed to delete question: ' + err.message);
       toast({ title: 'Error', description: 'Failed to delete question.', variant: 'destructive' });
+    } finally {
+      setLoading(false); // Clear loading state
+    }
+  };
+
+  // --- Handlers for Bulk Delete Feature ---
+
+  // Toggle selection of a single question
+  const handleSelectQuestion = (id: string) => {
+    const newSelected = new Set(selectedQuestions);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+      setIsSelectAll(false);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedQuestions(newSelected);
+  };
+
+  // Toggle select all questions
+  const handleSelectAll = () => {
+    if (isSelectAll) {
+      // Deselect all
+      setSelectedQuestions(new Set());
+    } else {
+      // Select all currently displayed questions
+      const allIds = new Set(mcqs.map(mcq => mcq.id));
+      setSelectedQuestions(allIds);
+    }
+    setIsSelectAll(!isSelectAll);
+  };
+
+  // Open bulk delete confirmation dialog
+  const handleBulkDeleteConfirmation = () => {
+    if (selectedQuestions.size > 0) {
+      setBulkDeleteConfirmationOpen(true);
+    } else {
+      toast({
+        title: 'No Selection',
+        description: 'Please select at least one question to delete.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  // Execute bulk delete operation
+  const handleBulkDelete = async () => {
+    if (selectedQuestions.size === 0) return;
+
+    setLoading(true);
+    setError(null);
+    try {
+      // Convert Set to array for Supabase query
+      const idsToDelete = Array.from(selectedQuestions);
+
+      // Delete multiple MCQs from the 'mcqs' table
+      const { error } = await supabase
+        .from('mcqs')
+        .delete()
+        .in('id', idsToDelete);
+
+      if (error) throw error;
+
+      toast({
+        title: 'Success',
+        description: `${selectedQuestions.size} question(s) deleted successfully!`
+      });
+      setBulkDeleteConfirmationOpen(false); // Close the dialog
+      setSelectedQuestions(new Set()); // Clear selection
+      setIsSelectAll(false);
+
+      // Re-fetch MCQs if current filters allow, or just clear if no filters are active
+      if ((selectedSubjectId && selectedChapterId) || currentSearchQuery) {
+        await fetchMcqsData();
+      } else {
+        // If current filters are empty, and questions were deleted, they're no longer there
+        // so we just clear the list to avoid showing deleted items.
+        setMcqs([]);
+      }
+    } catch (err: any) {
+      console.error('Error deleting questions:', err);
+      setError('Failed to delete questions: ' + err.message);
+      toast({
+        title: 'Error',
+        description: 'Failed to delete questions.',
+        variant: 'destructive'
+      });
     } finally {
       setLoading(false); // Clear loading state
     }
@@ -553,7 +657,7 @@ export const Admin12: React.FC = () => {
               <SelectContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
                 {chapters.map(chapter => (
                   <SelectItem key={chapter.id} value={chapter.id}>
-                        {chapter.name}
+                    {chapter.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -579,8 +683,15 @@ export const Admin12: React.FC = () => {
           </div>
 
           <div className="md:col-span-3 flex justify-end mt-4">
-            <Button onClick={() => setIsAddingNewQuestion(true)} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white">
+            <Button onClick={() => setIsAddingNewQuestion(true)} disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white mr-2">
               <PlusCircle className="w-4 h-4 mr-2" /> Add New Question
+            </Button>
+            <Button
+              onClick={handleBulkDeleteConfirmation}
+              disabled={loading || selectedQuestions.size === 0}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              <Trash2 className="w-4 h-4 mr-2" /> Delete Selected ({selectedQuestions.size})
             </Button>
           </div>
         </CardContent>
@@ -605,6 +716,15 @@ export const Admin12: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-gray-100 dark:bg-gray-700">
+                      <TableHead className="w-[50px] text-gray-700 dark:text-gray-300">
+                        <div className="flex items-center">
+                          <Checkbox
+                            checked={isSelectAll}
+                            onCheckedChange={handleSelectAll}
+                            disabled={loading}
+                          />
+                        </div>
+                      </TableHead>
                       <TableHead className="w-[50px] text-gray-700 dark:text-gray-300">ID</TableHead>
                       <TableHead className="text-gray-700 dark:text-gray-300">Question</TableHead>
                       <TableHead className="text-gray-700 dark:text-gray-300">Options</TableHead>
@@ -617,6 +737,15 @@ export const Admin12: React.FC = () => {
                   <TableBody>
                     {mcqs.map((mcq) => (
                       <TableRow key={mcq.id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <TableCell>
+                          <div className="flex items-center">
+                            <Checkbox
+                              checked={selectedQuestions.has(mcq.id)}
+                              onCheckedChange={() => handleSelectQuestion(mcq.id)}
+                              disabled={loading}
+                            />
+                          </div>
+                        </TableCell>
                         <TableCell className="font-medium text-xs text-gray-800 dark:text-gray-200">{mcq.id.substring(0, 4)}...</TableCell>
                         <TableCell className="text-sm max-w-xs overflow-hidden text-ellipsis whitespace-nowrap text-gray-800 dark:text-gray-200">{mcq.question}</TableCell>
                         <TableCell className="text-xs text-gray-800 dark:text-gray-200">
@@ -725,17 +854,17 @@ export const Admin12: React.FC = () => {
               </div>
             </div>
             <div className="space-y-2">
-                <Label htmlFor="new-difficulty">Difficulty</Label>
-                <Select value={newQuestionForm.difficulty} onValueChange={(val) => handleNewQuestionSelectChange('difficulty', val)}>
-                    <SelectTrigger id="new-difficulty" className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600">
-                        <SelectValue placeholder="Select Difficulty" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-                        <SelectItem value="easy">Easy</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="hard">Hard</SelectItem>
-                    </SelectContent>
-                </Select>
+              <Label htmlFor="new-difficulty">Difficulty</Label>
+              <Select value={newQuestionForm.difficulty} onValueChange={(val) => handleNewQuestionSelectChange('difficulty', val)}>
+                <SelectTrigger id="new-difficulty" className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600">
+                  <SelectValue placeholder="Select Difficulty" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                  <SelectItem value="easy">Easy</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="hard">Hard</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>
@@ -823,17 +952,17 @@ export const Admin12: React.FC = () => {
               </div>
             </div>
             <div className="space-y-2">
-                <Label htmlFor="edit-difficulty">Difficulty</Label>
-                <Select value={editQuestionForm.difficulty} onValueChange={(val) => handleEditQuestionSelectChange('difficulty', val)}>
-                    <SelectTrigger id="edit-difficulty" className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600">
-                        <SelectValue placeholder="Select Difficulty" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
-                        <SelectItem value="easy">Easy</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="hard">Hard</SelectItem>
-                    </SelectContent>
-                </Select>
+              <Label htmlFor="edit-difficulty">Difficulty</Label>
+              <Select value={editQuestionForm.difficulty} onValueChange={(val) => handleEditQuestionSelectChange('difficulty', val)}>
+                <SelectTrigger id="edit-difficulty" className="bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600">
+                  <SelectValue placeholder="Select Difficulty" />
+                </SelectTrigger>
+                <SelectContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                  <SelectItem value="easy">Easy</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="hard">Hard</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>
@@ -845,7 +974,7 @@ export const Admin12: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
+      {/* Single Delete Confirmation Dialog */}
       <AlertDialog open={deleteConfirmationOpen} onOpenChange={setDeleteConfirmationOpen}>
         <AlertDialogContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700">
           <AlertDialogHeader>
@@ -858,6 +987,24 @@ export const Admin12: React.FC = () => {
             <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteQuestion} disabled={loading} className="bg-red-600 hover:bg-red-700">
               {loading ? 'Deleting...' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Bulk Delete Confirmation Dialog */}
+      <AlertDialog open={bulkDeleteConfirmationOpen} onOpenChange={setBulkDeleteConfirmationOpen}>
+        <AlertDialogContent className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-200 dark:border-gray-700">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-xl font-bold">Delete {selectedQuestions.size} Question(s)?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete {selectedQuestions.size} selected question(s).
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={loading}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleBulkDelete} disabled={loading} className="bg-red-600 hover:bg-red-700">
+              {loading ? 'Deleting...' : `Delete ${selectedQuestions.size} Question(s)`}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
