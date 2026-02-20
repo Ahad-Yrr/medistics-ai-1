@@ -1390,7 +1390,7 @@ const testimonials = [
               <div>
                 <h3 className="font-semibold mb-4 text-purple-400">Support & Legal</h3>
                 <ul className="space-y-2 text-gray-400">
-                  <li className="hover:text-purple-300 transition-colors duration-300">medistics@dr.com</li>
+                  <li className="hover:text-purple-300 transition-colors duration-300">connect@medistics.app</li>
                   <li className="hover:text-purple-300 transition-colors duration-300">L13 KDA Flats, Sector 5E Surjani Town, Karachi</li>
                   <li><Link to="/privacypolicy" className="hover:text-white hover:text-purple-300 transition-all duration-300 hover:translate-x-1">Privacy Policy</Link></li>
                   <li><Link to="/terms" className="hover:text-white hover:text-purple-300 transition-all duration-300 hover:translate-x-1">Terms and Conditions</Link></li>
@@ -1400,7 +1400,7 @@ const testimonials = [
             </div>
 
             <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-              <p>&copy; 2026 Medistics. All rights reserved.</p>
+              <p>&copy; 2026 HMACS Studios. All rights reserved.</p>
             </div>
           </div>
         </footer>
