@@ -13,21 +13,6 @@ import AI from '@/pages/AI';
 import AITestGeneratorPage from '@/pages/AITestGenerator';
 import AIChatbotPage from '@/pages/AIChatbot';
 import Leaderboard from '@/pages/Leaderboard';
-import Admin from '@/pages/Admin';
-import Admin1 from '@/pages/Admin1';
-import Admin2 from '@/pages/Admin2';
-import Admin3 from '@/pages/Admin3';
-import Admin4 from '@/pages/Admin4';
-import Admin5 from '@/pages/Admin5';
-import Admin6 from '@/pages/Admin6';
-import Admin7 from '@/pages/Admin7';
-import Admin8 from '@/pages/Admin8';
-import Admin9 from '@/pages/Admin9';
-import Admin10 from '@/pages/Admin10';
-import Admin11 from '@/pages/Admin11';
-import {Admin12} from '@/pages/Admin12';
-import Admin13 from '@/pages/Admin13';
-import Admin14 from '@/pages/Admin14';
 // import Admin15 from '@/pages/Admin15';
 import Profile from '@/pages/Profile';
 import Pricing from '@/pages/Pricing';
@@ -92,21 +77,6 @@ function App() {
                 <Route path="/ai/test-generator" element={<AITestGeneratorPage />} />
                 <Route path="/ai/chatbot" element={<AIChatbotPage />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
-                <Route path="/admin" element={<Admin />} />
-                <Route path="/admin1" element={<Admin1 />} />
-                <Route path="/admin2" element={<Admin2 />} />
-                <Route path="/admin3" element={<Admin3 />} />
-                <Route path="/admin4" element={<Admin4 />} />
-                <Route path="/admin5" element={<Admin5 />} />
-                <Route path="/admin6" element={<Admin6 />} />
-                <Route path="/admin7" element={<Admin7 />} />
-                <Route path="/admin8" element={<Admin8 />} />
-                <Route path="/admin9" element={<Admin9 />} />
-                <Route path="/admin10" element={<Admin10 />} />
-                <Route path="/admin11" element={<Admin11 />} />
-                <Route path="/admin12" element={<Admin12 />} />
-                <Route path="/admin13" element={<Admin13 />} />
-                <Route path="/admin14" element={<Admin14 />} />
                 {/* <Route path="/admin15" element={<Admin15 />} /> */}
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/password" element={<ChangePassword />} />
