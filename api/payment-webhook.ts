@@ -101,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (record.email) {
         try {
           await resend.emails.send({
-            from: 'Medistics.app <billing@medistics.app.app>',
+            from: 'Medistics.app <billing@medistics.app>',
             to: [record.email],
             subject: 'Thank you for trusting Medistics.app',
             html: `
