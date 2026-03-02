@@ -116,7 +116,7 @@ export default async function handler(req, res) {
       if (record.email) {
         try {
           await resend.emails.send({
-            from: 'MedmacsApp <billing@medmacs.app>',
+            from: 'MedisticsApp <billing@medmacs.app>',
             to: [record.email],
             subject: 'Thank you for trusting Medmacs.App',
             html: `
