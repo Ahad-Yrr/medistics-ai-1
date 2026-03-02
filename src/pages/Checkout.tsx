@@ -11,12 +11,11 @@ import {
     ArrowLeft,
     Loader2,
     Wallet,
-    RefreshCw
 } from 'lucide-react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import { ProfileDropdown } from '@/components/ProfileDropdown';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import Seo from '@/components/Seo';
@@ -29,9 +28,6 @@ import {
 } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const MDR_RATE = 0.025;
-const EASYPAISA_API_URL = "/api/pay-easypaisa";
-
 const Checkout = () => {
     const { user } = useAuth();
     const { theme, setTheme } = useTheme();
@@ -41,8 +37,8 @@ const Checkout = () => {
     const [isRedirecting, setIsRedirecting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const [paymentMethod, setPaymentMethod] = useState<'easypaisa' | 'payfast'>('easypaisa');
-    const [mobileNumber, setMobileNumber] = useState('');
+    // Defaulted to payfast since easypaisa is disabled
+    const [paymentMethod, setPaymentMethod] = useState<'easypaisa' | 'payfast'>('payfast');
     const [modalState, setModalState] = useState<'idle' | 'processing' | 'success' | 'failure'>('idle');
     const [agreedToTerms, setAgreedToTerms] = useState(false);
 
@@ -52,12 +48,12 @@ const Checkout = () => {
     const [isPromoApplied, setIsPromoApplied] = useState(false);
     const [promoDiscountDisplay, setPromoDiscountDisplay] = useState<string | null>(null);
 
-    // Manual status check for fallback
+    // Manual status check for PayFast fallback or success verification
     const checkPaymentStatus = async () => {
         if (!user) return;
 
         try {
-            const { data, error: fetchError } = await supabase
+            const { data } = await supabase
                 .from('pending_payments')
                 .select('status, error_message')
                 .eq('user_id', user.id)
@@ -86,7 +82,6 @@ const Checkout = () => {
     useEffect(() => {
         if (!user) return;
 
-        // 1. Setup Realtime Channel
         const channel = supabase
             .channel('payment-tracking')
             .on(
@@ -98,7 +93,6 @@ const Checkout = () => {
                     filter: `user_id=eq.${user.id}`,
                 },
                 (payload) => {
-                    console.log("Realtime Update Received:", payload.new.status);
                     if (payload.new.status === 'success') {
                         setModalState('success');
                         setIsLoading(false);
@@ -109,22 +103,10 @@ const Checkout = () => {
                     }
                 }
             )
-            .subscribe((status) => {
-                console.log("Realtime Subscription Status:", status);
-            });
-
-        // 2. Setup Polling Fallback (Crucial since your logs show WebSockets are failing)
-        let pollInterval: NodeJS.Timeout;
-        if (modalState === 'processing') {
-            pollInterval = setInterval(() => {
-                console.log("Polling for status update...");
-                checkPaymentStatus();
-            }, 4000);
-        }
+            .subscribe();
 
         return () => {
             supabase.removeChannel(channel);
-            if (pollInterval) clearInterval(pollInterval);
         };
     }, [user, modalState]);
 
@@ -142,19 +124,11 @@ const Checkout = () => {
 
     const basePrice = basePriceStr ? parseFloat(basePriceStr) : 0;
     const validityDisplay = validity.toLowerCase() === 'yearly' ? 'Validity: 365 Days' : 'Validity: 30 Days';
-    const priceAfterPromo = discountedPrice !== null ? discountedPrice : basePrice;
 
-    const mdrTax = paymentMethod === 'payfast' ? priceAfterPromo * MDR_RATE : 0;
-    const grandTotal = priceAfterPromo + mdrTax;
+    // Total calculation: MDR logic removed entirely
+    const grandTotal = discountedPrice !== null ? discountedPrice : basePrice;
 
-    // PayFast lockout logic: Disabled if total is below 25 PKR
     const isPayFastDisabled = grandTotal < 20;
-
-    useEffect(() => {
-        if (isPayFastDisabled && paymentMethod === 'payfast') {
-            setPaymentMethod('easypaisa');
-        }
-    }, [isPayFastDisabled, paymentMethod]);
 
     const handleApplyPromoCode = async () => {
         setPromoCodeError(null);
@@ -184,63 +158,6 @@ const Checkout = () => {
         }
     };
 
-    const handleEasypaisaPayment = async () => {
-        if (!mobileNumber || mobileNumber.length !== 11 || !mobileNumber.startsWith('03')) {
-            setError("Please enter a valid 11-digit Easypaisa number starting with 03.");
-            return;
-        }
-
-        setError(null);
-        setIsLoading(true);
-        setModalState('processing');
-
-        const orderRefNum = `EP-${Date.now()}`;
-        const amountFormatted = grandTotal.toFixed(2);
-
-        const { data: { session } } = await supabase.auth.getSession();
-
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-        try {
-            const response = await fetch(EASYPAISA_API_URL, {
-                method: 'POST',
-                signal: controller.signal,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session?.access_token}`
-                },
-                body: JSON.stringify({
-                    amount: amountFormatted,
-                    mobileNo: mobileNumber,
-                    orderRefNum: orderRefNum,
-                    email: user?.email || 'customer@medmacs.app',
-                    userId: user?.id,
-                    validity: validity,
-                    planName: planName
-                })
-            });
-
-            clearTimeout(timeoutId);
-
-            if (response.ok || response.status === 202) {
-                console.log("Payment request submitted successfully.");
-            } else {
-                const errorData = await response.json().catch(() => ({ message: "Server error occurred." }));
-                throw new Error(errorData.message || "Gateway unreachable.");
-            }
-        } catch (err: any) {
-            console.error("Payment Error:", err);
-            if (err.name === 'AbortError') {
-                console.warn("Request timed out, waiting for Realtime update...");
-                return;
-            }
-            setError(err.message || "An unexpected error occurred.");
-            setModalState('failure');
-            setIsLoading(false);
-        }
-    };
-
     const handlePayFastPayment = async () => {
         setIsLoading(true);
         setError(null);
@@ -248,7 +165,6 @@ const Checkout = () => {
         const finalAmount = grandTotal.toFixed(2);
 
         try {
-            // 1. Pre-insert the payment record
             const { error: insertError } = await supabase
                 .from('pending_payments')
                 .insert([{
@@ -262,26 +178,20 @@ const Checkout = () => {
                 }]);
 
             if (insertError) {
-                console.error("DB Insert Error:", insertError);
                 throw new Error("Could not initialize transaction. Check your internet connection.");
             }
 
-            // 2. Call Vercel API for token
-            const response = await fetch('/api/checkout', {
+            const response = await fetch('https://medistics.app/api/checkout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }, // Tell the server this is Case 1
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: finalAmount, basketId })
             });
 
-
-            let data;
-
             const text = await response.text();
-
+            let data;
             try {
                 data = text ? JSON.parse(text) : null;
             } catch (e) {
-                console.error("Invalid JSON response:", text);
                 throw new Error("Payment server returned invalid response.");
             }
 
@@ -289,14 +199,11 @@ const Checkout = () => {
                 throw new Error(data?.message || "Failed to get payment token.");
             }
 
-
-
             setIsRedirecting(true);
 
-            // 3. Form Redirection
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = "https://ipg1.apps.net.pk/Ecommerce/api/Transaction/PostTransaction";
+            form.action = "https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction";
 
             const fields = {
                 MERCHANT_ID: "248744",
@@ -305,7 +212,7 @@ const Checkout = () => {
                 TOKEN: data.ACCESS_TOKEN,
                 PROCCODE: "00",
                 TXNAMT: finalAmount,
-                CUSTOMER_MOBILE_NO: mobileNumber || "03000000000",
+                CUSTOMER_MOBILE_NO: "03000000000",
                 CUSTOMER_EMAIL_ADDRESS: user?.email || "",
                 SUCCESS_URL: `${window.location.origin}/payment-success?plan=${planName}&validity=${validity}`,
                 FAILURE_URL: `${window.location.origin}/payment-failure`,
@@ -332,7 +239,6 @@ const Checkout = () => {
             document.body.appendChild(form);
             form.submit();
         } catch (err: any) {
-            console.error("PayFast Error Detail:", err);
             setError(err.message || "An error occurred while starting PayFast.");
             setIsLoading(false);
         }
@@ -348,7 +254,12 @@ const Checkout = () => {
             setError("You must agree to the Terms, Privacy, and Refund policies to continue.");
             return;
         }
-        paymentMethod === 'easypaisa' ? handleEasypaisaPayment() : handlePayFastPayment();
+
+        if (paymentMethod === 'payfast') {
+            handlePayFastPayment();
+        } else {
+            setError("Selected payment method is currently unavailable.");
+        }
     };
 
     return (
@@ -390,7 +301,7 @@ const Checkout = () => {
                             {isPromoApplied && (
                                 <div className="flex justify-between text-green-600 dark:text-green-400 text-sm font-medium">
                                     <span className="flex items-center"><BadgePercent className="mr-1.5 h-4 w-4" /> {promoDiscountDisplay}</span>
-                                    <span>- PKR {(basePrice - priceAfterPromo).toFixed(2)}</span>
+                                    <span>- PKR {(basePrice - grandTotal).toFixed(2)}</span>
                                 </div>
                             )}
 
@@ -425,28 +336,16 @@ const Checkout = () => {
                     <h2 className="text-2xl font-bold dark:text-white">Payment Method</h2>
                     <div className="space-y-4">
                         <div
-                            onClick={() => setPaymentMethod('easypaisa')}
-                            className={cn("cursor-pointer p-4 border-2 rounded-xl transition-all", paymentMethod === 'easypaisa' ? "border-purple-600 bg-purple-50/50 dark:bg-purple-900/20" : "border-slate-200 dark:border-slate-800")}
+                            className="p-4 border-2 rounded-xl border-slate-200 dark:border-slate-800 opacity-50 grayscale cursor-not-allowed"
                         >
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center gap-3">
-                                    <Wallet className="w-5 h-5 text-green-600" />
+                                    <Wallet className="w-5 h-5 text-slate-400" />
                                     <span className="font-bold dark:text-white">Easypaisa</span>
                                 </div>
-                                <img src="/images/Easypaisa-logo.png" className="h-4" alt="Easypaisa" />
+                                <img src="/images/Easypaisa-logo.png" className="h-4 opacity-50" alt="Easypaisa" />
                             </div>
-                            {paymentMethod === 'easypaisa' && (
-                                <div className="space-y-2 mt-2 animate-in fade-in zoom-in-95">
-                                    <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Mobile Account Number</label>
-                                    <Input
-                                        placeholder="03XXXXXXXXX"
-                                        value={mobileNumber}
-                                        onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                                        maxLength={11}
-                                        className="bg-white dark:bg-slate-950 dark:border-slate-700 dark:text-white"
-                                    />
-                                </div>
-                            )}
+                            <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">Coming Soon</span>
                         </div>
 
                         <div
@@ -457,7 +356,6 @@ const Checkout = () => {
                                 <CreditCard className="w-5 h-5 text-purple-600" />
                                 <div className="flex flex-col">
                                     <span className="font-bold dark:text-white">Cards / Bank (PayFast)</span>
-                                    <span className="text-[10px] text-purple-500 font-medium">+2.5% Tax</span>
                                 </div>
                             </div>
                         </div>
@@ -471,7 +369,7 @@ const Checkout = () => {
                             className="mt-1"
                         />
                         <label htmlFor="terms" className="text-sm leading-snug text-slate-600 dark:text-slate-400">
-                            By continuing to pay to Medmacs/Hmacs Studios, you agree to our{' '}
+                            By continuing to pay to Medistics/Hmacs Studios, you agree to our{' '}
                             <Link to="/terms" className="text-purple-600 hover:underline font-medium">Terms and Conditions</Link>,{' '}
                             <Link to="/privacypolicy" className="text-purple-600 hover:underline font-medium">Privacy Policy</Link>, and{' '}
                             <Link to="/refund-policy" className="text-purple-600 hover:underline font-medium">Refund Policy</Link>.
@@ -501,16 +399,8 @@ const Checkout = () => {
                                 <Loader2 className="h-12 w-12 text-purple-600 animate-spin mb-4" />
                                 <DialogTitle className="dark:text-white">Authorizing Payment</DialogTitle>
                                 <DialogDescription className="mt-2 dark:text-slate-400 px-4">
-                                    Please approve the request on your Easypaisa app or enter your PIN on the mobile prompt.
+                                    Your secure payment session is being prepared. Please do not refresh the page.
                                 </DialogDescription>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="mt-4 text-xs text-slate-500 hover:text-purple-600"
-                                    onClick={checkPaymentStatus}
-                                >
-                                    <RefreshCw className="mr-2 h-3 w-3" /> Still waiting? Click to check status
-                                </Button>
                             </>
                         )}
                         {modalState === 'success' && (
