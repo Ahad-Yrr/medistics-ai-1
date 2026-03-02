@@ -116,32 +116,33 @@ export default async function handler(req, res) {
       if (record.email) {
         try {
           await resend.emails.send({
-            from: 'MedisticsApp <billing@medmacs.app>',
+            from: 'Medistics.app <billing@medistics.app>',
             to: [record.email],
-            subject: 'Thank you for trusting Medmacs.App',
+            subject: 'Thank you for trusting Medmacs.app',
             html: `
-              <div style="background: linear-gradient(135deg, #008080 0%, #004d4d 100%); padding: 40px 20px; font-family: sans-serif; display: flex; justify-content: center;">
-                  <div style="max-width: 500px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
-                      <div style="background: rgba(0, 128, 128, 0.05); padding: 30px; text-align: center; border-bottom: 1px solid #eee;">
-                          <img src=https://i.ibb.co/5WnFfB51/icon-1.png" alt="Medmacs Logo" style="width: 80px; height: auto; margin-bottom: 15px;">
-                          <h2 style="color: #006666; margin: 0; font-size: 24px; letter-spacing: 0.5px;">Payment Successful</h2>
-                      </div>
-                      <div style="padding: 30px; color: #333; line-height: 1.6;">
-                          <p>Hi there,</p>
-                          <p>Your subscription is now confirmed!</p>
-                          <div style="background: #f4fdfd; border-radius: 12px; padding: 20px; border: 1px solid #d1eded; margin: 20px 0;">
-                              <p style="margin: 0; color: #666;">Active Plan:</p>
-                              <p style="margin: 0 0 15px 0; font-size: 18px; color: #008080; font-weight: bold;">${record.plan_name}</p>
-                                <table style="width: 100%; font-size: 14px;">
-                                    <tr><td>Order ID</td><td style="text-align: right; font-weight: bold;">${orderId}</td></tr>
-                                    <tr><td>Transaction ID</td><td style="text-align: right;">${transactionId ?? '-'}</td></tr>
-                                    <tr><td>Valid Until</td><td style="text-align: right; font-weight: bold; color: #e67e22;">${expiryDate.toLocaleDateString()}</td></tr>
-                                </table>
-                          </div>
-                          <p>Warm regards,<br><strong>Team Medmacs</strong></p>
-                      </div>
-                  </div>
-              </div>            `,
+              <div style="background: linear-gradient(135deg, #FF1CF7 0%, #0081FB 100%); padding: 40px 20px; font-family: sans-serif; display: flex; justify-content: center;">
+                  <div style="max-width: 500px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
+                      <div style="background: rgba(128, 0, 128, 0.05); padding: 30px; text-align: center; border-bottom: 1px solid #eee;">
+                          <img src=https://i.ibb.co/5WnFfB51/icon-1.png" alt="Medmacs Logo" style="width: 80px; height: auto; margin-bottom: 15px;">
+                          <h2 style="color: #AA14B3; margin: 0; font-size: 24px; letter-spacing: 0.5px;">Payment Successful</h2>
+                          <p style="margin: 5px 0 0; color: #666; font-size: 14px;">from Medmacs.app</p>
+                      </div>
+                      <div style="padding: 30px; color: #333; line-height: 1.6;">
+                          <p>Hi there,</p>
+                          <p>Your subscription is now confirmed!</p>
+                          <div style="background: #fdf4fd; border-radius: 12px; padding: 20px; border: 1px solid #edcced; margin: 20px 0;">
+                              <p style="margin: 0; color: #666;">Active Plan:</p>
+                              <p style="margin: 0 0 15px 0; font-size: 18px; color: #D728D1; font-weight: bold;">${record.plan_name}</p>
+                                <table style="width: 100%; font-size: 14px;">
+                                    <tr><td>Order ID</td><td style="text-align: right; font-weight: bold;">${orderId}</td></tr>
+                                    <tr><td>Transaction ID</td><td style="text-align: right;">${transactionId ?? '-'}</td></tr>
+                                    <tr><td>Valid Until</td><td style="text-align: right; font-weight: bold; color: #0081FB;">${expiryDate.toLocaleDateString()}</td></tr>
+                                </table>
+                          </div>
+                          <p>Warm regards,<br><strong>Team Medmacs.app</strong></p>
+                      </div>
+                  </div>
+              </div>            `,
           });
         } catch (mailErr) {
           console.error('Email error:', mailErr);
