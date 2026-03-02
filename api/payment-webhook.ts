@@ -103,7 +103,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           await resend.emails.send({
             from: 'Medistics.app <billing@medistics.app.app>',
             to: [record.email],
-            subject: 'Thank you for trusting Medmacs.app',
+            subject: 'Thank you for trusting Medistics.app',
             html: `
               <div style="background: linear-gradient(135deg, #FF1CF7 0%, #0081FB 100%); padding: 40px 20px; font-family: sans-serif; display: flex; justify-content: center;">
                   <div style="max-width: 500px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2);">
