@@ -45,6 +45,8 @@ import UpdatePassword from '@/pages/UpdatePassword'; // Add this import
 import Flashcards from '@/pages/Flashcards'; // Add this import
 import InstallApp from '@/pages/InstallApp'; // Add this import
 import RefundPolicy from '@/pages/RefundPolicy'; // Add this import
+import PaymentSuccess from '@/pages/PaymentSuccess'; // Add this import
+import PaymentFailure from '@/pages/PaymentFailure'; // Add this import
 import './App.css';
 
 // Import the VideoCallProvider
@@ -110,6 +112,8 @@ function App() {
                 <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
                 <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
                 <Route path="/refund-policy" element={<RefundPolicy />} /> {/* This is the new route */}
+                <Route path="/payment-success" element={<PaymentSuccess />} /> {/* This is the new route */}
+                <Route path="/payment-failure" element={<PaymentFailure />} /> {/* This is the new route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </VideoCallProvider>

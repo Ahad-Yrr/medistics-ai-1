@@ -206,8 +206,8 @@ const Checkout = () => {
             form.action = "https://ipguat.apps.net.pk/Ecommerce/api/Transaction/PostTransaction";
 
             const fields = {
-                MERCHANT_ID: "248744",
-                Merchant_Name: "MEMACS Pakistan",
+                MERCHANT_ID: "103",
+                Merchant_Name: "MEDISTICS Pakistan",
                 MERCHANT_USERAGENT: navigator.userAgent,
                 TOKEN: data.ACCESS_TOKEN,
                 PROCCODE: "00",
