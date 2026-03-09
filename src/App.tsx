@@ -2,6 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/toaster';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import Maintenance from '@/components/Maintenance';
 import Index from '@/pages/Index';
 import Login from '@/pages/Login';
 import Signup from '@/pages/Signup';
@@ -55,6 +58,73 @@ import { VideoCallProvider } from '@/video-sdk/VideoCallProvider'; // Adjust pat
 const queryClient = new QueryClient();
 
 function App() {
+  const [isMaintenance, setIsMaintenance] = useState(false);
+  const [resumeAt, setResumeAt] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkMaintenance = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('maintenance_settings')
+          .select('is_enabled, resume_at')
+          .single();
+
+        if (error) {
+          console.error('Error fetching maintenance settings:', error);
+          return;
+        }
+
+        if (data) {
+          setIsMaintenance(data.is_enabled);
+          setResumeAt(data.resume_at);
+        }
+      } catch (err) {
+        console.error('Unexpected error checking maintenance:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkMaintenance();
+
+    // Subscribe to realtime changes
+    const channel = supabase
+      .channel('maintenance_status')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'maintenance_settings',
+        },
+        (payload) => {
+          const newData = payload.new as { is_enabled: boolean; resume_at: string | null };
+          if (newData) {
+            setIsMaintenance(newData.is_enabled);
+            setResumeAt(newData.resume_at);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isMaintenance) {
+    return (
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <Maintenance resumeAt={resumeAt} />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider
@@ -108,12 +178,11 @@ function App() {
                 <Route path="/flp-result" element={<FLPResults />} />
                 <Route path="/results/flp/:id" element={<FLPResultDetail />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/update-password" element={<UpdatePassword />} /> {/* This is the new route */}
-                <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
-                <Route path="/flashcards" element={<Flashcards />} /> {/* This is the new route */}
-                <Route path="/refund-policy" element={<RefundPolicy />} /> {/* This is the new route */}
-                <Route path="/payment-success" element={<PaymentSuccess />} /> {/* This is the new route */}
-                <Route path="/payment-failure" element={<PaymentFailure />} /> {/* This is the new route */}
+                <Route path="/update-password" element={<UpdatePassword />} />
+                <Route path="/flashcards" element={<Flashcards />} />
+                <Route path="/refund-policy" element={<RefundPolicy />} />
+                <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/payment-failure" element={<PaymentFailure />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </VideoCallProvider>
