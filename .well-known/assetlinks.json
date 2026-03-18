@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.hmacs.medistics",
+      "sha256_cert_fingerprints": [
+        "C7:91:97:30:C1:8B:78:7A:51:F7:3F:87:61:37:5C:68:60:C1:72:53:C2:E3:AE:03:8D:44:41:45:83:C1:FD:43"
+      ]
+    }
+  }
+]
