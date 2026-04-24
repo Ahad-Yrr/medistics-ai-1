@@ -1,579 +1,177 @@
 {
-  "Spiral-1 Modules": {
-    "subject": "Basic Sciences",
-    "title": "Spiral-1: Foundation & Systems-Based Learning (Years 1 & 2)",
-    "concepts": [
-      "Anatomy",
-      "Physiology",
-      "Biochemistry",
-      "Pathology",
-      "Pharmacology",
-      "Microbiology"
-    ],
-    "objectives": [
-      "Understand the foundational principles of medical sciences.",
-      "Integrate knowledge across basic science disciplines.",
-      "Apply basic science concepts to clinical scenarios."
-    ]
-  },
-  "Foundation": {
-    "subject": "Basic Sciences",
-    "title": "Cell, Genetics, and Cell Death",
-    "concepts": [
-      "Cell structure and function",
-      "DNA replication and gene expression",
-      "Cell cycle regulation",
-      "Apoptosis and necrosis",
-      "Genetic inheritance patterns"
-    ],
-    "objectives": [
-      "Describe the key organelles and their functions.",
-      "Explain the process of DNA transcription and translation.",
-      "Differentiate between apoptosis and necrosis.",
-      "Analyze different modes of genetic inheritance."
-    ]
-  },
-  "Hematology": {
-    "subject": "Basic Sciences",
-    "title": "Blood, Immunity, Inflammation, Tissue Repair, Antimicrobials, Neoplasia",
-    "concepts": [
-      "Hematopoiesis",
-      "Anemia and blood disorders",
-      "Immune system components",
-      "Inflammatory response pathways",
-      "Wound healing and fibrosis",
-      "Mechanisms of antimicrobial drugs",
-      "Oncogenesis and tumor classification"
-    ],
-    "objectives": [
-      "Identify different types of blood cells and their roles.",
-      "Describe the innate and adaptive immune responses.",
-      "Explain the key steps in the inflammatory process.",
-      "Understand the basic principles of cancer development."
-    ]
-  },
-  "Locomotion": {
-    "subject": "Basic Sciences",
-    "title": "Bones, Joints, Nerves, and Muscles",
-    "concepts": [
-      "Skeletal anatomy and histology",
-      "Joint types and movements",
-      "Peripheral nervous system anatomy",
-      "Skeletal, smooth, and cardiac muscle physiology",
-      "Neuromuscular junction"
-    ],
-    "objectives": [
-      "Classify bones and joints based on structure and function.",
-      "Explain the sliding filament theory of muscle contraction.",
-      "Describe the transmission of nerve impulses."
-    ]
-  },
-  "Respiratory System": {
-    "subject": "Basic Sciences",
-    "title": "Respiratory System",
-    "concepts": [
-      "Airway anatomy and branching",
-      "Pulmonary gas exchange",
-      "Regulation of breathing",
-      "Spirometry and lung volumes",
-      "Common respiratory diseases (e.g., asthma, COPD)"
-    ],
-    "objectives": [
-      "Trace the path of air from the nose to the alveoli.",
-      "Explain the principles of gas diffusion across the alveolar-capillary membrane.",
-      "Interpret basic spirometry results.",
-      "Identify the clinical features of common respiratory conditions."
-    ]
-  },
-  "Cardiovascular System": {
-    "subject": "Basic Sciences",
-    "title": "Cardiovascular System",
-    "concepts": [
-      "Heart anatomy and chambers",
-      "Cardiac cycle and heart sounds",
-      "ECG interpretation and arrhythmias",
-      "Blood pressure regulation and hemodynamics",
-      "Common cardiovascular diseases (e.g., hypertension, atherosclerosis)"
-    ],
-    "objectives": [
-      "Describe the flow of blood through the heart and body.",
-      "Explain the phases of the cardiac cycle and their correlation to the ECG.",
-      "Understand the physiological factors that influence blood pressure.",
-      "Recognize the pathology of atherosclerosis."
-    ]
-  },
-  "Neurosciences": {
-    "subject": "Basic Sciences",
-    "title": "Neurosciences",
-    "concepts": [
-      "Anatomy of the brain and spinal cord",
-      "Neurotransmission and action potentials",
-      "Cerebrospinal fluid (CSF) circulation",
-      "Cranial nerves",
-      "Sensory and motor pathways"
-    ],
-    "objectives": [
-      "Identify the major lobes and structures of the brain.",
-      "Explain the process of synaptic transmission.",
-      "Trace the flow of CSF.",
-      "Describe the function of each cranial nerve."
-    ]
-  },
-  "Head, Neck, and Special Senses": {
-    "subject": "Basic Sciences",
-    "title": "Head, Neck, and Special Senses",
-    "concepts": [
-      "Anatomy of the skull, face, and neck",
-      "Eye anatomy and vision physiology",
-      "Ear anatomy and hearing physiology",
-      "Anatomy and function of the tongue and taste buds",
-      "Olfactory system"
-    ],
-    "objectives": [
-      "Identify the major bones and muscles of the head and neck.",
-      "Explain how light is focused on the retina.",
-      "Describe the process of sound transduction.",
-      "Understand the pathways for taste and smell."
-    ]
-  },
-  "Endocrinology": {
-    "subject": "Basic Sciences",
-    "title": "Endocrinology",
-    "concepts": [
-      "Endocrine glands and their hormones",
-      "Hormone feedback loops",
-      "Insulin and glucagon regulation of glucose",
-      "Thyroid hormone synthesis and function",
-      "Adrenal gland hormones"
-    ],
-    "objectives": [
-      "Name the major endocrine glands and their secreted hormones.",
-      "Explain the concept of negative feedback in hormonal regulation.",
-      "Describe the pathophysiology of diabetes mellitus.",
-      "Discuss the effects of thyroid and adrenal hormones."
-    ]
-  },
-  "Gastrointestinal Tract (GIT)": {
-    "subject": "Basic Sciences",
-    "title": "GIT and Liver",
-    "concepts": [
-      "Anatomy of the GI tract",
-      "Digestion and absorption of nutrients",
-      "Liver functions and bile production",
-      "Enterohepatic circulation",
-      "Common GI pathologies (e.g., GERD, peptic ulcers)"
-    ],
-    "objectives": [
-      "Trace the path of food through the digestive system.",
-      "Explain the roles of enzymes in digestion.",
-      "Describe the metabolic and detoxification functions of the liver.",
-      "Understand the mechanisms behind common GI diseases."
-    ]
-  },
-  "Renal and Excretory System": {
-    "subject": "Basic Sciences",
-    "title": "Renal and Excretory System",
-    "concepts": [
-      "Kidney anatomy and nephron structure",
-      "Glomerular filtration, reabsorption, and secretion",
-      "Regulation of fluid and electrolytes",
-      "Renin-angiotensin-aldosterone system (RAAS)",
-      "Urine formation"
-    ],
-    "objectives": [
-      "Identify the key structures of the kidney and nephron.",
-      "Explain the process of urine formation.",
-      "Describe the role of the kidneys in maintaining acid-base balance.",
-      "Understand how RAAS regulates blood pressure."
-    ]
-  },
-  "Reproductive System": {
-    "subject": "Basic Sciences",
-    "title": "Reproductive System",
-    "concepts": [
-      "Male and female reproductive anatomy",
-      "Hormonal control of puberty",
-      "Spermatogenesis and oogenesis",
-      "Menstrual cycle",
-      "Fertilization and implantation"
-    ],
-    "objectives": [
-      "Identify the major organs of the male and female reproductive systems.",
-      "Explain the hormonal interactions in the menstrual cycle.",
-      "Describe the process of gamete formation.",
-      "Understand the key events of fertilization and early pregnancy."
-    ]
-  },
-  "Spiral-2 Modules": {
-    "subject": "Clinical Sciences",
-    "title": "Spiral-2: Clinical Focus (Years 3 & 4)",
-    "concepts": [
-      "Disease diagnosis and management",
-      "Clinical pharmacology",
-      "Patient communication and history taking",
-      "Differential diagnosis",
-      "Evidence-based medicine"
-    ],
-    "objectives": [
-      "Integrate knowledge from basic sciences with clinical presentations.",
-      "Develop skills in diagnosing and treating common clinical conditions.",
-      "Understand the ethical and legal aspects of patient care."
-    ]
-  },
-  "Foundation II": {
-    "subject": "Clinical Sciences",
-    "title": "Foundation II",
-    "concepts": [
-      "Pharmacodynamics and pharmacokinetics",
-      "Pathophysiology of disease",
-      "Medical ethics and professionalism",
-      "Biostatistics and epidemiology",
-      "Principles of public health"
-    ],
-    "objectives": [
-      "Explain how drugs are absorbed, distributed, metabolized, and excreted.",
-      "Relate cellular and molecular changes to disease symptoms.",
-      "Apply biostatistical principles to medical literature.",
-      "Discuss the social determinants of health."
-    ]
-  },
-  "Infectious Diseases": {
-    "subject": "Clinical Sciences",
-    "title": "Infectious Diseases",
-    "concepts": [
-      "Bacteriology, virology, mycology, and parasitology",
-      "Mechanisms of infection",
-      "Antimicrobial resistance",
-      "Vaccine principles",
-      "Diagnosis and treatment of infectious diseases"
-    ],
-    "objectives": [
-      "Differentiate between major classes of pathogens.",
-      "Describe the host immune response to infection.",
-      "Identify the modes of action of various antimicrobial drugs.",
-      "Formulate a differential diagnosis for a patient with fever of unknown origin."
-    ]
-  },
-  "Hematology II": {
-    "subject": "Clinical Sciences",
-    "title": "Hematology II",
-    "concepts": [
-      "Diagnosis and management of anemia",
-      "Hemostasis and coagulation disorders",
-      "Leukemia, lymphoma, and multiple myeloma",
-      "Blood transfusion medicine"
-    ],
-    "objectives": [
-      "Interpret a complete blood count (CBC) and blood smear.",
-      "Differentiate between various types of anemia.",
-      "Understand the principles of chemotherapy for hematological malignancies.",
-      "Identify indications and complications of blood transfusions."
-    ]
-  },
-  "Respiratory System II": {
-    "subject": "Clinical Sciences",
-    "title": "Respiratory System II",
-    "concepts": [
-      "Clinical presentation of pulmonary diseases",
-      "Chest X-ray and CT scan interpretation",
-      "Pulmonary function tests (PFTs)",
-      "Management of asthma and COPD exacerbations",
-      "Pneumonia and tuberculosis diagnosis and treatment"
-    ],
-    "objectives": [
-      "Formulate a differential diagnosis for a patient with shortness of breath.",
-      "Interpret a chest radiograph for signs of common diseases.",
-      "Develop a treatment plan for an asthma attack.",
-      "Recognize the clinical features of tuberculosis."
-    ]
-  },
-  "Cardiovascular System II": {
-    "subject": "Clinical Sciences",
-    "title": "Cardiovascular System II",
-    "concepts": [
-      "Diagnosis of myocardial infarction and heart failure",
-      "Pharmacology of cardiovascular drugs",
-      "Arrhythmia management",
-      "Physical examination findings in heart disease",
-      "Management of hypertension and lipid disorders"
-    ],
-    "objectives": [
-      "Interpret an ECG to identify common arrhythmias.",
-      "Understand the mechanisms of action for anti-hypertensive and anti-arrhythmic drugs.",
-      "Perform a focused cardiovascular physical exam.",
-      "Formulate a treatment plan for a patient with heart failure."
-    ]
-  },
-  "GIT and Liver II": {
-    "subject": "Clinical Sciences",
-    "title": "GIT and Liver II (including Nutritional Disorders)",
-    "concepts": [
-      "Clinical evaluation of abdominal pain",
-      "Upper and lower GI bleeding",
-      "Inflammatory bowel disease (IBD) vs. irritable bowel syndrome (IBS)",
-      "Cirrhosis and portal hypertension",
-      "Nutritional deficiencies and malnutrition"
-    ],
-    "objectives": [
-      "Differentiate between various causes of abdominal pain.",
-      "Develop a diagnostic workup for GI bleeding.",
-      "Understand the clinical and pathological differences between IBD and IBS.",
-      "Recognize the complications of liver cirrhosis."
-    ]
-  },
-  "Renal and Excretory System II": {
-    "subject": "Clinical Sciences",
-    "title": "Renal and Excretory System II",
-    "concepts": [
-      "Acute kidney injury (AKI) and chronic kidney disease (CKD)",
-      "Electrolyte and acid-base disorders",
-      "Urinalysis interpretation",
-      "Dialysis and renal transplantation",
-      "Common urinary tract infections (UTIs)"
-    ],
-    "objectives": [
-      "Classify and diagnose AKI.",
-      "Interpret a urinalysis report.",
-      "Manage common electrolyte imbalances.",
-      "Describe the principles of hemodialysis and peritoneal dialysis."
-    ]
-  },
-  "Endocrinology II": {
-    "subject": "Clinical Sciences",
-    "title": "Endocrinology II",
-    "concepts": [
-      "Diagnosis and management of diabetes mellitus",
-      "Thyroid disorders (hyper- and hypothyroidism)",
-      "Adrenal insufficiency (Addison's disease) and Cushing's syndrome",
-      "Pituitary gland disorders",
-      "Calcium homeostasis"
-    ],
-    "objectives": [
-      "Formulate a treatment plan for a patient with type 2 diabetes.",
-      "Identify the clinical signs of thyroid dysfunction.",
-      "Understand the aetiology and management of adrenal disorders.",
-      "Explain how calcium is regulated in the body."
-    ]
-  },
-  "Orthopedics, Rheumatology, Trauma": {
-    "subject": "Clinical Sciences",
-    "title": "Orthopedics, Rheumatology, Trauma",
-    "concepts": [
-      "Fracture classification and healing",
-      "Common joint disorders (e.g., osteoarthritis, rheumatoid arthritis)",
-      "Systemic lupus erythematosus (SLE)",
-      "Approach to a patient with joint pain",
-      "Principles of trauma management"
-    ],
-    "objectives": [
-      "Differentiate between different types of fractures.",
-      "Recognize the clinical presentation of common rheumatologic diseases.",
-      "Perform a basic musculoskeletal examination.",
-      "Prioritize care for a patient with multiple traumatic injuries."
-    ]
-  },
-  "Dermatology, Plastic Surgery/Burns": {
-    "subject": "Clinical Sciences",
-    "title": "Dermatology, Plastic Surgery/Burns",
-    "concepts": [
-      "Skin anatomy and lesions",
-      "Common skin conditions (e.g., eczema, psoriasis)",
-      "Dermatological emergencies",
-      "Burns classification and management",
-      "Wound healing and scar formation"
-    ],
-    "objectives": [
-      "Identify and describe primary and secondary skin lesions.",
-      "Formulate a differential diagnosis for a patient with a rash.",
-      "Assess the severity of burn injuries.",
-      "Understand the principles of wound care."
-    ]
-  },
-  "Reproductive System II": {
-    "subject": "Clinical Sciences",
-    "title": "Reproductive System II",
-    "concepts": [
-      "Sexually transmitted infections (STIs)",
-      "Contraception methods",
-      "Common gynecological disorders",
-      "Benign and malignant breast diseases",
-      "Prostate disease"
-    ],
-    "objectives": [
-      "Identify common STIs and their treatments.",
-      "Counsel patients on various contraceptive options.",
-      "Differentiate between common gynecological conditions.",
-      "Recognize the signs of prostate cancer."
-    ]
-  },
-  "Neurosciences and Psychiatry": {
-    "subject": "Clinical Sciences",
-    "title": "Neurosciences and Psychiatry",
-    "concepts": [
-      "Neurological examination",
-      "Stroke and seizure management",
-      "Neurodegenerative diseases",
-      "Common psychiatric disorders (e.g., depression, anxiety)",
-      "Psychopharmacology"
-    ],
-    "objectives": [
-      "Perform a comprehensive neurological exam.",
-      "Understand the acute management of a stroke patient.",
-      "Differentiate between major psychiatric disorders.",
-      "Explain the mechanisms of action for antidepressants and anxiolytics."
-    ]
-  },
-  "ENT (Otorhinolaryngology)": {
-    "subject": "Clinical Sciences",
-    "title": "ENT (Otorhinolaryngology)",
-    "concepts": [
-      "Anatomy of the ear, nose, and throat",
-      "Hearing loss and tinnitus",
-      "Sinusitis and rhinitis",
-      "Tonsillitis and pharyngitis",
-      "Laryngitis and voice disorders"
-    ],
-    "objectives": [
-      "Perform a basic otoscopic and nasal speculum examination.",
-      "Formulate a differential diagnosis for a patient with hearing loss.",
-      "Understand the causes and treatments of sinusitis.",
-      "Differentiate between viral and bacterial pharyngitis."
-    ]
-  },
-  "Ophthalmology": {
-    "subject": "Clinical Sciences",
-    "title": "Ophthalmology",
-    "concepts": [
-      "Anatomy and physiology of the eye",
-      "Refractive errors",
-      "Glaucoma and cataracts",
-      "Retinal diseases",
-      "Ophthalmic emergencies"
-    ],
-    "objectives": [
-      "Perform a basic eye exam.",
-      "Explain the pathophysiology of glaucoma and cataracts.",
-      "Recognize the signs of retinal detachment.",
-      "Identify common ophthalmic emergencies."
-    ]
-  },
-  "Spiral-3 Modules": {
-    "subject": "Integrated Clinical Training",
-    "title": "Spiral-3: Supervised Practical Training (Year 5)",
-    "concepts": [
-      "Patient-centered care",
-      "Clinical reasoning and problem-solving",
-      "Interprofessional collaboration",
-      "Medical procedures and skills",
-      "Management of complex cases"
-    ],
-    "objectives": [
-      "Demonstrate proficiency in taking a comprehensive patient history.",
-      "Perform and interpret a physical examination.",
-      "Develop and implement evidence-based management plans.",
-      "Communicate effectively with patients and the healthcare team."
-    ]
-  },
-  "Medicine Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Medicine",
-    "concepts": [
-      "Inpatient and outpatient care",
-      "Management of chronic diseases",
-      "Acute medical emergencies",
-      "Pharmacology and polypharmacy",
-      "Palliative and end-of-life care"
-    ],
-    "objectives": [
-      "Manage common acute and chronic medical conditions.",
-      "Interpret laboratory and imaging results.",
-      "Provide compassionate care to patients with life-limiting illnesses.",
-      "Formulate a comprehensive management plan for a complex patient."
-    ]
-  },
-  "Pediatrics Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Pediatrics",
-    "concepts": [
-      "Growth and development milestones",
-      "Common childhood illnesses",
-      "Vaccination schedules",
-      "Newborn care and resuscitation",
-      "Pediatric emergencies"
-    ],
-    "objectives": [
-      "Assess a child's growth and development.",
-      "Differentiate between common pediatric illnesses.",
-      "Understand the importance of vaccination.",
-      "Recognize and manage a pediatric emergency."
-    ]
-  },
-  "Cardiology Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Cardiology",
-    "concepts": [
-      "ECG interpretation",
-      "Acute coronary syndromes (ACS)",
-      "Heart failure management",
-      "Valvular heart disease",
-      "Cardiomyopathies"
-    ],
-    "objectives": [
-      "Interpret a complex ECG.",
-      "Manage a patient presenting with chest pain.",
-      "Understand the pathophysiology of heart failure.",
-      "Recognize the clinical signs of valvular heart disease."
-    ]
-  },
-  "Neurology Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Neurology",
-    "concepts": [
-      "Neurological history and exam",
-      "Cerebrovascular accidents (stroke)",
-      "Seizure and epilepsy management",
-      "Multiple sclerosis and Parkinson's disease",
-      "Peripheral neuropathies"
-    ],
-    "objectives": [
-      "Perform a detailed neurological exam.",
-      "Identify the signs and symptoms of a stroke.",
-      "Develop a management plan for a patient with a seizure.",
-      "Understand the pathophysiology of neurodegenerative diseases."
-    ]
-  },
-  "Surgery Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Surgery",
-    "concepts": [
-      "Preoperative and postoperative care",
-      "Surgical emergencies (e.g., acute appendicitis)",
-      "Wound care and infection control",
-      "Fluid and electrolyte management in surgery",
-      "Surgical oncology"
-    ],
-    "objectives": [
-      "Assess a patient's fitness for surgery.",
-      "Manage a patient in the postoperative period.",
-      "Recognize and manage common surgical emergencies.",
-      "Understand the principles of surgical asepsis."
-    ]
-  },
-  "Gynecology and Obstetrics Rotation": {
-    "subject": "Integrated Clinical Training",
-    "title": "Gynecology and Obstetrics",
-    "concepts": [
-      "Normal pregnancy and delivery",
-      "High-risk pregnancies",
-      "Contraception and family planning",
-      "Common gynecological issues",
-      "Menopause and hormone replacement therapy"
-    ],
-    "objectives": [
-      "Conduct a basic prenatal visit.",
-      "Manage a patient during labor and delivery.",
-      "Counsel patients on family planning.",
-      "Diagnose and treat common gynecological infections."
-    ]
+  "MCAT_Subjects": {
+    "Biology": {
+      "subject": "Pre-Medical Biology",
+      "title": "MCAT Biology Syllabus (45% Weightage - 81 MCQs)",
+      "concepts": [
+        "Acellular Life",
+        "Bioenergetics",
+        "Biological Molecules",
+        "Cell Structure & Function",
+        "Coordination & Control",
+        "Enzymes",
+        "Evolution",
+        "Reproduction",
+        "Support & Movement",
+        "Inheritance",
+        "Circulation",
+        "Immunity",
+        "Respiration",
+        "Digestion",
+        "Homeostasis",
+        "Biotechnology"
+      ],
+      "objectives": [
+        "Classify viruses and explain HIV infection.",
+        "Outline cellular respiration of macromolecules.",
+        "Describe structure and function of biological molecules, DNA, and RNA.",
+        "Compare prokaryotic/eukaryotic cells and organelle functions.",
+        "Explain neuron structure, reflex arc, and brain function.",
+        "Describe enzyme action, factors, and inhibition.",
+        "Compare Lamarckism and Darwinism.",
+        "Describe human reproductive systems, menstrual cycle, and STDs.",
+        "Explain skeletal muscle ultrastructure and contraction.",
+        "Apply Mendel’s laws, gene linkage, and sex-linked inheritance.",
+        "Describe cardiac cycle, blood vessels, and lymphatic system.",
+        "Explain specific defense mechanisms in immunity.",
+        "Describe gas exchange and effects of smoking.",
+        "Describe digestive system structure and function.",
+        "Explain kidney function, thermoregulation, and excretion.",
+        "Describe biotech applications in vaccines, diagnosis, and treatment."
+      ]
+    },
+    "Chemistry": {
+      "subject": "Pre-Medical Chemistry",
+      "title": "MCAT Chemistry Syllabus (25% Weightage - 45 MCQs)",
+      "concepts": [
+        "Fundamental Concepts",
+        "Atomic Structure",
+        "Gases",
+        "Liquids",
+        "Solids",
+        "Chemical Equilibrium",
+        "Reaction Kinetics",
+        "Thermochemistry",
+        "Electrochemistry",
+        "Chemical Bonding",
+        "S and P Block Elements",
+        "Transition Elements",
+        "Organic Fundamentals",
+        "Hydrocarbons",
+        "Alkyl Halides",
+        "Alcohols and Phenols",
+        "Aldehydes and Ketones",
+        "Carboxylic Acids",
+        "Macromolecules",
+        "Industrial Chemistry"
+      ],
+      "objectives": [
+        "Perform stoichiometric calculations (moles, limiting reactants, yield).",
+        "Describe quantum numbers, orbitals, and electronic configuration.",
+        "Apply gas laws (Boyle, Charles, Ideal Gas Equation).",
+        "Explain hydrogen bonding and anomalous behavior of water.",
+        "Differentiate crystalline, ionic, and molecular crystals.",
+        "Apply Le Chatelier's principle, solubility product, and buffer solutions.",
+        "Define rate of reaction, order of reaction, and activation energy.",
+        "Apply Hess’s law and first law of thermodynamics.",
+        "Balance redox reactions and define standard electrode potential.",
+        "Use VSEPR theory, hybridization, and dipole moment.",
+        "Describe periodic trends and reactions of Group I, II, IV elements.",
+        "Describe electronic structure of d-block elements.",
+        "Classify organic compounds, functional groups, and isomerism.",
+        "Describe free radical mechanism, alkenes, alkynes, and benzene reactions.",
+        "Describe nucleophilic substitution and elimination reactions.",
+        "Describe preparation and reactions of alcohols, phenols.",
+        "Describe nucleophilic addition in aldehydes and ketones.",
+        "Describe reactions and derivatives of carboxylic acids.",
+        "Classify proteins and describe enzymes as biocatalysts.",
+        "Describe types and uses of adhesives, dyes, and polymers."
+      ]
+    },
+    "Physics": {
+      "subject": "Pre-Medical Physics",
+      "title": "MCAT Physics Syllabus (20% Weightage - 36 MCQs)",
+      "concepts": [
+        "Vectors and Equilibrium",
+        "Force and Motion",
+        "Work and Energy",
+        "Rotational and Circular Motion",
+        "Fluid Dynamics",
+        "Waves",
+        "Thermodynamics",
+        "Electrostatics",
+        "Current Electricity",
+        "Electromagnetism",
+        "Electromagnetic Induction",
+        "Alternating Current",
+        "Electronics",
+        "Dawn of Modern Physics",
+        "Atomic Spectra",
+        "Nuclear Physics"
+      ],
+      "objectives": [
+        "Determine sum and products of vectors.",
+        "Analyze projectile motion, Newton's laws, and collisions.",
+        "Explain work-energy theorem, power, and efficiency.",
+        "Relate angular and linear quantities.",
+        "Describe terminal velocity, equation of continuity, and Bernoulli’s equation.",
+        "Solve wave equation, superposition, stationary waves, and SHM.",
+        "Apply first law of thermodynamics and derive Cp - Cv = R.",
+        "Apply Coulomb’s law, electric field, potential, and capacitor charging/discharging.",
+        "State Ohm’s law, resistivity, internal resistance, and max power transfer.",
+        "Describe magnetic flux and motion of charged particle in magnetic field.",
+        "Apply Faraday’s law, Lenz’s law, and transformer principles.",
+        "Describe phase in AC circuits with resistor, capacitor, inductor.",
+        "Describe rectification and PN junction biasing.",
+        "Explain photon model of light.",
+        "Describe line spectra.",
+        "Describe half-life and medical uses of radiation."
+      ]
+    },
+    "English": {
+      "subject": "English Language",
+      "title": "MCAT English Syllabus (5% Weightage - 9 MCQs)",
+      "concepts": [
+        "Reading and Thinking Skills",
+        "Formal and Lexical Aspects",
+        "Writing Skills"
+      ],
+      "objectives": [
+        "Scan texts to answer short questions.",
+        "Deduce meanings from context and figurative language.",
+        "Use synonyms, irony, parody, and satire appropriately.",
+        "Illustrate pronoun-antecedent agreement, tenses, infinitives, gerunds.",
+        "Recognize varying positions of adverbs.",
+        "Illustrate use of prepositions and transitional devices.",
+        "Use punctuation marks correctly.",
+        "Analyze sentence classes and phrases.",
+        "Use active/passive voice and direct/indirect speech appropriately.",
+        "Proofread for errors in sentence structure, subject-verb agreement, spelling, and function."
+      ]
+    },
+    "Logical Reasoning": {
+      "subject": "Logical Reasoning",
+      "title": "MCAT Logical Reasoning Syllabus (5% Weightage - 9 MCQs)",
+      "concepts": [
+        "Critical Thinking",
+        "Letter and Symbol Series",
+        "Logical Deductions",
+        "Logical Problems",
+        "Course of Action",
+        "Cause and Effect"
+      ],
+      "objectives": [
+        "Develop logical arguments to separate truth from falsehood.",
+        "Identify and critically evaluate false beliefs.",
+        "Develop arithmetical operations and geometrical progressions for series.",
+        "Develop sequential orders for letters and symbols.",
+        "Predict new relations based on given relations.",
+        "Develop new structures based on information from drawn structures.",
+        "Infer results from one problem to resolve another.",
+        "Develop skills to solve puzzles using deductive reasoning.",
+        "Gather information to make decisions and judge courses of action.",
+        "Give reasons for events and reject false beliefs through valid arguments."
+      ]
+    }
   }
 }
